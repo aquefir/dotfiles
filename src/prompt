@@ -1,0 +1,22 @@
+#!/bin/sh
+# -*- coding: utf-8 -*-
+
+# Get bash-specific stuff if using it
+if test "${BASH}" != ''; then
+	. ~/.bash_prompt;
+else
+	_user="$(whoami)";
+	_host="$(cat /etc/hostname)";
+	_dir="$(basename ${PWD})";
+	if test "${_dir}" = "${_user}"; then
+		_dir='~';
+	fi
+	if test "$(id -u)" = '0'; then
+		_sym='#';
+	else
+		_sym='$';
+	fi
+	PS1="${_user}@${_host} ${_dir} ${_sym} ";
+	export PS1;
+	unset _user _host _dir _sym;
+fi

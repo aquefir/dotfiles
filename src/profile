@@ -1,0 +1,17 @@
+#!/bin/sh
+# -*- coding: utf-8 -*-
+
+# Get bash-specific stuff if using it
+if test "${BASH}" != ''; then
+	. ~/.bash_profile;
+fi
+
+. ~/.prompt;
+
+# Load the shell dotfiles, and then some:
+#   - ~/.path can be used to extend $PATH
+#   - ~/.extra can be used for other settings not to be committed
+for file in ~/.{aliases,exports,extra,functions,path,prompt}; do
+	[ -r "${file}" ] && [ -f "${file}" ] && . "${file}";
+done;
+unset file;

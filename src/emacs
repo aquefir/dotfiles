@@ -1,0 +1,68 @@
+; -*- mode: emacs-lisp -*-
+(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp/"))
+(load-theme 'zenburn t)
+(setq-default tab-width 3)
+(setq-default asm-indent-level 3)
+(setq-default js-indent-level 3)
+(setq-default c-basic-offset 3)
+(setq-default cperl-indent-level 3)
+(setq-default sh-basic-offset 3)
+(setq-default sh-indentation 3)
+(setq-default c-default-style "bsd")
+(setq-default indent-tabs-mode t)
+(setq-default whitespace-line-column 79)
+(setq-default whitespace-style '(face lines-tail))
+(c-set-offset 'innamespace 0)
+(require 'git-modes)
+(require 'typescript-mode)
+(require 'smart-tabs-mode)
+;; indentation using smart-tabs-mode
+(smart-tabs-insinuate 'c 'c++ 'java 'javascript 'cperl 'python 'ruby 'nxml)
+(smart-tabs-advice js-indent-line js-basic-offset)
+;; perl-indent-level
+(setq cperl-indent-level 3)
+;; nxml-mode
+(setq 
+    nxml-child-indent 3
+    nxml-attribute-indent 3
+    nxml-slash-auto-complete-flag t)
+;; asm @
+(setq
+ asm-comment-char 64)
+
+(add-hook 'prog-mode-hook #'whitespace-mode)
+(add-hook 'rest-mode-hook #'whitespace-mode)
+(smart-tabs-advice python-indent-line-1 python-indent)
+    (add-hook 'python-mode-hook
+              (lambda ()
+                (setq indent-tabs-mode t)
+                (setq tab-width (default-value 'tab-width))))
+
+; clang-format
+(require 'clang-format)
+(global-set-key (kbd "C-c i") 'clang-format-region)
+(global-set-key (kbd "C-c u") 'clang-format-buffer)
+(setq clang-format-style-option "file")
+
+; require language modes
+;(require 'd-mode)
+;(require 'gas-mode)
+(require 'go-mode)
+(require 'rust-mode)
+
+(add-to-list 'auto-mode-alist '("\\.s\\'" . gas-mode))
+
+; startup setup
+(fset 'startup
+   (lambda (&optional arg) "Keyboard macro." (interactive "p") (kmacro-exec-ring-item (quote ("3oxansi-term
+xrename-bufferterm0xansi-termusr/bin/cmus
+xrename-buffercmusb" 0 "%d")) arg)))
+
+; startup2
+(fset 'startup2
+   (lambda (&optional arg) "Keyboard macro." (interactive "p") (kmacro-exec-ring-item (quote ("3oxansi-term
+xrename-bufferterm0xansi-termusr/bin/cmus
+xrename-buffercmusxansi-term
+xrename-bufferterm1bterm0bcmusok" 0 "%d")) arg)))
+

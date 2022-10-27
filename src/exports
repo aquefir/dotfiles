@@ -1,0 +1,95 @@
+#!/bin/sh
+#
+
+# Source private, user-local exports
+[ -f "${HOME}/.privexports" ] && . "${HOME}/.privexports";
+
+# text-based editor preference cascade
+if command -v emacs 2>&1 1>/dev/null; then
+	export EDITOR='emacs';
+elif command -v nano 2>&1 1>/dev/null; then
+	export EDITOR='nano';
+else
+	export EDITOR='vi';
+fi
+
+# visual editor preference cascade
+if command -v codium 2>&1 1>/dev/null; then
+	export VISUAL='codium';
+elif command -v code 2>&1 1>/dev/null; then
+	export VISUAL='code';
+elif command -v geany 2>&1 1>/dev/null; then
+	export VISUAL='geany';
+elif command -v gedit 2>&1 1>/dev/null; then
+	export VISUAL='gedit';
+else
+	export VISUAL="${EDITOR}";
+fi
+
+# compression defaults that are still nice to memory-constrained systems
+export XZ_DEFAULTS='-6eT 0'
+
+# enable persistent REPL history for node
+export NODE_REPL_HISTORY=~/.node_history;
+# allow 32³ entries (the default is 1000)
+export NODE_REPL_HISTORY_SIZE='32768';
+# use sloppy mode by default, matching web browsers
+export NODE_REPL_MODE='sloppy';
+
+# make python2 use utf-8 encoding for output to std{in,out,err}
+export PYTHONIOENCODING='UTF-8';
+
+# increase bash history size to 32³ entries (the default is 500)
+export HISTSIZE='32768';
+export HISTFILESIZE="${HISTSIZE}";
+# omit duplicates and commands that begin with a space from history
+export HISTCONTROL='ignoreboth';
+
+# prefer US English and use utf-8
+export LANG='en_US.UTF-8';
+export LC_ALL='en_US.UTF-8';
+
+# Highlight section titles in manual pages
+export LESS_TERMCAP_md="${yellow}";
+
+# don’t clear the screen after quitting a manual page
+export MANPAGER='less -X';
+
+# avoid issues with `gpg` as installed via Homebrew
+# <//stackoverflow.com/a/42265848/96656>
+export GPG_TTY="$(tty)";
+
+# devkitPro <//devkitpro.org/>
+if [ -d /opt/devkitpro ]; then
+	export DEVKITPRO=/opt/devkitpro;
+	export DKP="$DEVKITPRO";
+	[ -d "${DEVKITPRO}/devkitARM" ] && \
+		export DEVKITARM="${DEVKITPRO}/devkitARM" && \
+		export DKA="$DEVKITARM" && \
+		PATH="${DEVKITARM}/bin:${PATH}";
+	[ -d "${DEVKITPRO}/devkitPPC" ] && \
+		export DEVKITPPC="${DEVKITPRO}/devkitPPC" && \
+		export DKPPC="$DEVKITPPC" && \
+		PATH="${DEVKITPPC}/bin:${PATH}";
+	[ -d "${DEVKITPRO}/devkitA64" ] && \
+		export DEVKITA64="${DEVKITPRO}/devkitA64" && \
+		export DKA64="$DEVKITA64" && \
+		PATH="${DEVKITA64}/bin:${PATH}"; \
+	[ -d "${DEVKITPRO}/tools" ] && \
+		PATH="${DEVKITPRO}/tools/bin:${PATH}";
+fi
+
+# Homebrew for macOS <//brew.sh/>
+if test -d /opt/homebrew; then
+	PATH="/opt/homebrew/bin:$PATH";
+fi
+
+HOMEBREW_NO_ANALYTICS=1;
+
+# Byblos SDK <//byblos.tohoku.ac/>
+if test -d /opt/byblos; then
+	PATH="/opt/byblos/bin:$PATH";
+fi
+
+export HOMEBREW_NO_ANALYTICS;
+export PATH;
