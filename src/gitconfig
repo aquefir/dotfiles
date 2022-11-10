@@ -153,10 +153,20 @@
 	# Automatically correct and execute mistyped commands
 	autocorrect = 1
 
+[init]
+
+	# fuck your political correctness
+	defaultBranch = master
+
 [merge]
 
 	# Include summaries of merged commits in newly created merge commit messages
 	log = true
+	
+[pull]
+
+	# keep the old strategy
+	rebase = false
 
 [push]
 
