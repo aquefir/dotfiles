@@ -45,15 +45,15 @@ if test "${2#*.}" = 'tar.lz'; then
 		echo 'Exiting...';
 		exit 127;
 	fi
-	tarlz -c9n 512 -f "$2" $(ls -A1);
+	tarlz -c9n 512 -f "../$2" $(ls -A1);
 elif test "${2#*.}" = 'tar.gz'; then
-	tar -czf "$2" $(ls -A1);
+	tar -czf "../$2" $(ls -A1);
 elif test "${2#*.}" = 'tar.bz2'; then
-	tar -cjf "$2" $(ls -A1);
+	tar -cjf "../$2" $(ls -A1);
 elif test "${2#*.}" = 'tar.xz'; then
-	tar -cJf "$2" $(ls -A1);
+	tar -cJf "../$2" $(ls -A1);
 else
-	tar -cf "$2" $(ls -A1);
+	tar -cf "../$2" $(ls -A1);
 fi
 
 cd ..;
