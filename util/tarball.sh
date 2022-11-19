@@ -45,15 +45,35 @@ if test "${2#*.}" = 'tar.lz'; then
 		echo 'Exiting...';
 		exit 127;
 	fi
-	tarlz -c9n 512 -f "../$2" $(ls -A1);
+	if test "${2#/}" != "$2"; then
+		tarlz -c9n 512 -f "$2" $(ls -A1);
+	else
+		tarlz -c9n 512 -f "../$2" $(ls -A1);
+	fi
 elif test "${2#*.}" = 'tar.gz'; then
-	tar -czf "../$2" $(ls -A1);
+	if test "${2#/}" != "$2"; then
+		tar -czf "$2" $(ls -A1);
+	else
+		tar -czf "../$2" $(ls -A1);
+	fi
 elif test "${2#*.}" = 'tar.bz2'; then
-	tar -cjf "../$2" $(ls -A1);
+	if test "${2#/}" != "$2"; then
+		tar -cjf "$2" $(ls -A1);
+	else
+		tar -cjf "../$2" $(ls -A1);
+	fi
 elif test "${2#*.}" = 'tar.xz'; then
-	tar -cJf "../$2" $(ls -A1);
+	if test "${2#/}" != "$2"; then
+		tar -cJf "$2" $(ls -A1);
+	else
+		tar -cJf "../$2" $(ls -A1);
+	fi
 else
-	tar -cf "../$2" $(ls -A1);
+	if test "${2#/}" != "$2"; then
+		tar -cf "$2" $(ls -A1);
+	else
+		tar -cf "../$2" $(ls -A1);
+	fi
 fi
 
 cd ..;
